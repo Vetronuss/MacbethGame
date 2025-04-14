@@ -12,7 +12,6 @@ var imageKnifeBloody;
 var currentObj = "Find a weapon\nhttps://shorturl.at/FuSRN";
 
 let touchStartX, touchStartY;
-const centerThreshold = 50; // px around center for "tap"
 
 function touchStarted() {
   //see if the touch is on right, left, top, or bottom of the screen
@@ -26,25 +25,25 @@ function touchStarted() {
     LEVEL.player.movement = "down";
   } else if (touchStartY < height/3) {
     LEVEL.player.movement = "up";
-  }
-  
-  //check if the touch is in the center of the screen
-  if (touchStartX > width/2 - centerThreshold && touchStartX < width/2 + centerThreshold &&
-      touchStartY > height/2 - centerThreshold && touchStartY < height/2 + centerThreshold) {
+  }else
+  {
     LEVEL.player.movement = "select";
+    
   }
+
+console.log(LEVEL.player.movement);
+ 
+  
 
   return false;
 }
 
 function touchEnded()
 {
-  if (LEVEL.player.movement == "select")
-  {
-    LEVEL.player.movement = "select1";
-  }else{
+  if (LEVEL.player.movement != "select")
     LEVEL.player.movement = "none";
-  }
+  
+  
 
 }
 
@@ -73,6 +72,7 @@ var finalTime;
 
 function ENDSCREEN()
 {
+  
 	//save end time to local storage as best
 	var best = localStorage.getItem("macbest");
 	if (best == null)
@@ -104,7 +104,7 @@ function ENDSCREEN()
 	text("Press R to restart", width / 2, height / 2 + 100);
 
 	//if R is pressed, reload the page
-	if (keyIsDown(82)) {
+	if (keyIsDown(82) || LEVEL.player.movement == "select") {
 		location.reload();
 	}
 	pop();
@@ -116,7 +116,8 @@ var backgrounds = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
   LEVEL = new Level();
-
+  console.log("%c Made by: Vetronuss", 'color: #B00B13')
+  console.log("%c My Muse: Hairy Burger", 'color: #AA00FF')
   //midpoint between [64] and [0]
   var playerStart = createVector(
     (LEVEL.xs[0] + LEVEL.xs[64]) / 2,
@@ -238,7 +239,9 @@ function draw() {
   if (DONEZO)
 	{
 		background(0,10);
+    
 		ENDSCREEN();
+    
 		return;
 	}else
 	{
@@ -265,6 +268,7 @@ function draw() {
 	  if (LEVEL.player.x <LEVEL.xs[1]-LEVEL.player.size*2)
 		{
 			DONEZO = true;
+      LEVEL.player.movement = "none";
 			finalTime = millis();
 		}
     } else if (DONE) {
