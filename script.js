@@ -9,41 +9,46 @@ var imageWasted;
 var knife;
 var sound;
 var imageKnifeBloody;
-var currentObj = "Find a weapon";
+var currentObj = "Find a weapon\nhttps://shorturl.at/FuSRN";
 
 let touchStartX, touchStartY;
 const centerThreshold = 50; // px around center for "tap"
 
 function touchStarted() {
+  //see if the touch is on right, left, top, or bottom of the screen
   touchStartX = mouseX;
   touchStartY = mouseY;
-  return false;
-}
-
-function touchEnded() {
-  let dx = mouseX - touchStartX;
-  let dy = mouseY - touchStartY;
-
-  if (abs(dx) < 20 && abs(dy) < 20) {
-    // Tap near center
-    if (dist(mouseX, mouseY, width / 2, height / 2) < centerThreshold) {
-      simulateKey(' ');
-    }
-  } else {
-    // Swipe direction
-    if (abs(dx) > abs(dy)) {
-      simulateKey(dx > 0 ? 'ArrowRight' : 'ArrowLeft');
-    } else {
-      simulateKey(dy > 0 ? 'ArrowDown' : 'ArrowUp');
-    }
+  if (touchStartX > width-width/3) {
+    LEVEL.player.movement = "right";
+  } else if (touchStartX < width/3) {
+    LEVEL.player.movement = "left";
+  } else if (touchStartY > height-height/3) {
+    LEVEL.player.movement = "down";
+  } else if (touchStartY < height/3) {
+    LEVEL.player.movement = "up";
   }
+  
+  //check if the touch is in the center of the screen
+  if (touchStartX > width/2 - centerThreshold && touchStartX < width/2 + centerThreshold &&
+      touchStartY > height/2 - centerThreshold && touchStartY < height/2 + centerThreshold) {
+    LEVEL.player.movement = "select";
+  }
+
   return false;
 }
 
-function simulateKey(key) {
-  let evt = new KeyboardEvent("keydown", {key});
-  document.dispatchEvent(evt);
+function touchEnded()
+{
+  if (LEVEL.player.movement == "select")
+  {
+    LEVEL.player.movement = "select1";
+  }else{
+    LEVEL.player.movement = "none";
+  }
+
 }
+
+
 
 function preload() {
   imagePlayer = loadImage("KING.png");

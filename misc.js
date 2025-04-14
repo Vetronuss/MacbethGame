@@ -34,7 +34,7 @@ function dialogUpdate() {
 	
 	
 
-    if (keyCode === 32) {
+    if (keyCode === 32 || this.movement == "select1") {
       showDialog = false;
     }
   }
@@ -100,7 +100,7 @@ class Item {
       noFill();
       circle(this.x + this.sizeX / 2, this.y + this.sizeY / 2, this.sizeX + 10);
 
-      if (keyIsDown(32)) {
+      if (keyIsDown(32) || this.movement == "select1") {
         this.selected = true;
         hasKnife = true;
         LEVEL.entities[0].isSelectable = true;
@@ -126,6 +126,8 @@ class Entity {
     this.isLady = false;
     this.isSelectable = false;
     this.hasKnife = false;
+
+    this.movement = "none";
   }
   getDistance(x, y) {
     return dist(this.x, this.y, x, y);
@@ -148,7 +150,7 @@ class Entity {
 
     if (true) {
       if (this.isPlayer) {
-        if (keyIsDown(LEFT_ARROW)) {
+        if (keyIsDown(LEFT_ARROW) || this.movement === "left") {
           //check collision with lines xs ys
           let collision = false;
           for (let i = 0; i < LEVEL.xs.length; i++) {
@@ -172,7 +174,7 @@ class Entity {
             this.x -= this.speed;
           }
         }
-        if (keyIsDown(RIGHT_ARROW)) {
+        if (keyIsDown(RIGHT_ARROW) || this.movement === "right") {
           let collision = false;
           for (let i = 0; i < LEVEL.xs.length; i++) {
             if (
@@ -195,7 +197,7 @@ class Entity {
             this.x += this.speed;
           }
         }
-        if (keyIsDown(UP_ARROW)) {
+        if (keyIsDown(UP_ARROW) || this.movement === "up") {
           let collision = false;
           for (let i = 0; i < LEVEL.xs.length; i++) {
             if (
@@ -218,7 +220,7 @@ class Entity {
             this.y -= this.speed;
           }
         }
-        if (keyIsDown(DOWN_ARROW)) {
+        if (keyIsDown(DOWN_ARROW) || this.movement === "down") {
           let collision = false;
           for (let i = 0; i < LEVEL.xs.length; i++) {
             if (
@@ -256,9 +258,10 @@ class Entity {
         noFill();
         circle(this.x + this.size / 2, this.y + this.size / 2, this.size);
 
-        if (keyCode === 32) {
+        if (keyCode === 32 || this.movement == "select1") {
           keyCode = NaN;
           this.selected = true;
+          this.movement == "none"
           if (!kingDead) {
             kingDead = true;
             sound.play();
@@ -276,6 +279,7 @@ class Entity {
 			}, 500);
 			setTimeout(() => {
 				keyCode = NaN;
+        //this.movement = "none";
 			  }, 400);
 			keyCode = NaN;
 			
@@ -289,7 +293,7 @@ class Entity {
 				l[0].x,
 				l[0].y,
 				l[1].x - l[0].x,
-				l[1].y - l[0].y) && keyCode === 32) {
+				l[1].y - l[0].y) && (keyCode === 32||this.movement == "select1")) {
 				DONE2 = true;
 
 				}
