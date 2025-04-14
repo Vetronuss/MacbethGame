@@ -140,6 +140,12 @@ class Entity {
       image(this.image, this.x - 5, this.y - 5, this.size + 5, this.size + 5);
     }
     //check collision and movement, collideLineRect()
+
+    //support mobile swipe movement and tap is space
+   
+
+    
+
     if (true) {
       if (this.isPlayer) {
         if (keyIsDown(LEFT_ARROW)) {

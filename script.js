@@ -11,6 +11,40 @@ var sound;
 var imageKnifeBloody;
 var currentObj = "Find a weapon";
 
+let touchStartX, touchStartY;
+const centerThreshold = 50; // px around center for "tap"
+
+function touchStarted() {
+  touchStartX = mouseX;
+  touchStartY = mouseY;
+  return false;
+}
+
+function touchEnded() {
+  let dx = mouseX - touchStartX;
+  let dy = mouseY - touchStartY;
+
+  if (abs(dx) < 20 && abs(dy) < 20) {
+    // Tap near center
+    if (dist(mouseX, mouseY, width / 2, height / 2) < centerThreshold) {
+      simulateKey(' ');
+    }
+  } else {
+    // Swipe direction
+    if (abs(dx) > abs(dy)) {
+      simulateKey(dx > 0 ? 'ArrowRight' : 'ArrowLeft');
+    } else {
+      simulateKey(dy > 0 ? 'ArrowDown' : 'ArrowUp');
+    }
+  }
+  return false;
+}
+
+function simulateKey(key) {
+  let evt = new KeyboardEvent("keydown", {key});
+  document.dispatchEvent(evt);
+}
+
 function preload() {
   imagePlayer = loadImage("KING.png");
   imageLady = loadImage("lady.png");
