@@ -368,6 +368,11 @@ class Level {
     this.ys[7] = this.ys[6];
     this.ys[63] = this.ys[62];
     this.xs[64] = this.xs[63];
+    this.ys[9] = this.ys[7];
+    this.xs[8] = this.xs[7];
+    this.ys[8] = this.ys[7];
+    this.xs[7] = this.xs[9];
+    this.xs[8] = this.xs[9];
 
     this.xmin = this.xs[0];
     this.xmax = this.xs[0];
@@ -470,7 +475,7 @@ class Level {
     for (let i = 0; i < this.xs.length; i++) {
       vertex(this.xs[i], this.ys[i]);
 
-      //text(i, this.xs[i] + 10, this.ys[i]);
+      text(i, this.xs[i] + 10, this.ys[i]);
     }
     noFill();
     endShape(CLOSE);
