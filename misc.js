@@ -475,7 +475,7 @@ class Level {
     for (let i = 0; i < this.xs.length; i++) {
       vertex(this.xs[i], this.ys[i]);
 
-      text(i, this.xs[i] + 10, this.ys[i]);
+      //text(i, this.xs[i] + 10, this.ys[i]);
     }
     noFill();
     endShape(CLOSE);
